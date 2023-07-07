@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Photo from "./Photo";
+import Explanation from "./Explanation";
 import axios from "axios";
 
 function App() {
@@ -11,7 +12,7 @@ function App() {
     axios
       .get("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY")
       .then((res) => {
-        console.log(res.data.hdurl);
+        console.log(res);
         setData(res.data);
       })
       .catch((err) => console.error(err));
@@ -30,9 +31,10 @@ function App() {
 
   return (
     <div className="App">
-      <h1>NASA Photo of The Day</h1>
+      <h1>{data.title}</h1>
       {showPhoto && <Photo img={data.hdurl} date={formatDate(data.date)} />}
-      <button onClick={handleShowPhoto}>
+      <Explanation explanation={data.explanation} />
+      <button className="button" onClick={handleShowPhoto}>
         {showPhoto ? "Hide Photo" : "Show Photo"}
       </button>
     </div>
